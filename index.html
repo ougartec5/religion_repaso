@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Religión Fun – 2do grado</title>
+<title>Religión – 2do grado</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#efe9ff;--ink:#2b2559;--sun:#ffcf33;--coral:#ff6b6b;--green:#2fbf85;--card:#fff}
@@ -75,7 +75,7 @@ function pickVoice(){
 try{V=pickVoice();speechSynthesis.onvoiceschanged=()=>{V=pickVoice()}}catch(e){}
 function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=V?V.lang:'es-ES';if(V)u.voice=V;u.rate=.88;u.pitch=1.05;speechSynthesis.speak(u)}catch(e){}}
 function home(){
- app.innerHTML=`<h1>✨ Religión Fun ✨</h1><p class="sub">Elige un tema y juega</p><div class="grid">`+
+ app.innerHTML=`<h1>✨ Religión ✨</h1><p class="sub">Elige un tema y juega</p><div class="grid">`+
  Object.keys(T).map(k=>`<button class="topic" onclick="topic('${k}')"><span class="e">${T[k].e}</span>${T[k].n}</button>`).join('')+
  `<button class="mix" onclick="play('all')">🎲 Juego con todos los temas</button></div>`;
 }
