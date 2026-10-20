@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Religión Fun – 2do grado</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#efe9ff;--ink:#2b2559;--sun:#ffcf33;--coral:#ff6b6b;--green:#2fbf85;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Fredoka','Trebuchet MS',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;text-align:center}
+main{max-width:560px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.9rem;margin:8px 0 2px}
+p.sub{margin:0 0 14px;font-size:1.05rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.list{display:grid;gap:10px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;border-radius:22px;background:var(--card);box-shadow:0 5px 0 rgba(43,37,89,.18);padding:14px 10px;font-size:1.1rem;font-weight:600}
+button:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(43,37,89,.18)}
+button:focus-visible{outline:4px solid var(--ink)}
+.topic .e{display:block;font-size:3rem;line-height:1.2}
+.mix{grid-column:1/-1;background:var(--sun)}
+.back{background:var(--sun);margin-bottom:10px;padding:8px 18px;font-size:1rem}
+.big{font-size:5rem;line-height:1.1;margin:8px 0}
+.card{display:flex;gap:14px;align-items:center;text-align:left;font-weight:400}
+.card .e{font-size:2.6rem}
+.card b{display:block;font-size:1.2rem}
+.row{display:flex;gap:10px;justify-content:center;margin:14px 0}
+.row button{flex:1;background:var(--green);color:#fff}
+.row button.alt{background:var(--coral)}
+.opts{display:grid;gap:10px;margin-top:10px}
+.opts button{font-size:1.2rem;padding:15px}
+.ok{background:var(--green)!important;color:#fff}
+.no{background:var(--coral)!important;color:#fff;animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.bar{height:14px;background:#fff;border-radius:9px;overflow:hidden;margin:6px 0 4px}
+.bar i{display:block;height:100%;background:var(--sun);width:0;transition:width .3s}
+.stars{font-size:2.6rem;margin:10px 0}
+.q{font-size:1.4rem;font-weight:700;margin:6px 0}
+.say{background:var(--sun);font-size:1rem;padding:8px 16px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const T={
+cre:{n:'Dios creó el mundo',e:'🌍',cards:[['☀️','Primer día','Dios creó la luz.'],['☁️','Segundo día','Dios creó el cielo.'],['🌱','Tercer día','Dios creó la tierra, el mar y las plantas.'],['🌙','Cuarto día','Dios creó el sol, la luna y las estrellas.'],['🐟','Quinto día','Dios creó los peces y las aves.'],['👫','Sexto día','Dios creó los animales y a las personas.'],['😴','Séptimo día','Dios descansó.']],
+q:[['¿Quién creó el mundo?','Dios',['Un rey','Un animal']],['¿Qué creó Dios el primer día?','La luz',['Los peces','Las personas']],['¿Qué hizo Dios el día séptimo?','Descansó',['Creó el sol','Creó los animales']],['¿A quiénes creó Dios para cuidar su creación?','Al hombre y a la mujer',['A las estrellas','A los peces']],['¿Cómo cuidamos la creación de Dios?','Cuidando plantas y animales',['Tirando basura','Rompiendo árboles']]]},
+bib:{n:'La Biblia',e:'📖',cards:[['📖','La Biblia','Es el libro sagrado. En ella Dios nos habla.'],['🏺','Antiguo Testamento','Cuenta lo que pasó antes de que naciera Jesús.'],['✝️','Nuevo Testamento','Cuenta la vida de Jesús y de sus amigos.'],['📜','Los Evangelios','Son los libros que hablan de Jesús.'],['🤲','La Biblia se cuida','La tratamos con respeto y cariño.']],
+q:[['¿Cómo se llama el libro sagrado de los cristianos?','La Biblia',['El diccionario','El cuaderno']],['¿Cuáles son las dos partes de la Biblia?','Antiguo y Nuevo Testamento',['Día y noche','Primera y última']],['¿Qué libros hablan de la vida de Jesús?','Los Evangelios',['Los periódicos','Los mapas']],['¿Quién nos habla en la Biblia?','Dios',['El vecino','La televisión']],['¿Cómo tratamos la Biblia?','Con respeto y cariño',['La dejamos tirada','La rayamos']]]},
+jes:{n:'Jesús',e:'🕊️',cards:[['⭐','Jesús nació en Belén','Es el Hijo de Dios y vino a estar con nosotros.'],['👩','María y José','María es su mamá y San José lo cuidó.'],['🧒','Amigo de los niños','Jesús quiere mucho a los niños.'],['❤️','Jesús nos enseña','A amarnos unos a otros.'],['🌅','Jesús resucitó','En Pascua celebramos que Jesús vive.']],
+q:[['¿Dónde nació Jesús?','En Belén',['En Lima','En el mar']],['¿Quién es la mamá de Jesús?','María',['Rosa','Ana']],['¿Quién cuidó a Jesús junto con María?','San José',['Un pastor','Un rey']],['¿Qué nos enseña Jesús?','A amarnos unos a otros',['A pelear','A mentir']],['¿Qué celebramos en Pascua?','Que Jesús resucitó',['Que Jesús se fue de viaje','Que Jesús se durmió']]]},
+mar:{n:'La Virgen María',e:'💙',cards:[['💙','La Virgen María','Es la mamá de Jesús y también nuestra madre del cielo.'],['👼','El ángel Gabriel','Le dio a María la buena noticia: sería la mamá de Jesús.'],['🙏','María dijo sí','Ella confió en Dios y dijo que sí.'],['📿','El Ave María','Es la oración que rezamos a la Virgen.'],['🌹','Madre que nos cuida','Ella nos quiere y nos cuida siempre.']],
+q:[['¿Quién es la Virgen María?','La mamá de Jesús',['Una maestra','Una reina de cuento']],['¿Qué ángel visitó a María?','Gabriel',['Pedro','Pablo']],['¿Qué hizo María cuando el ángel le habló?','Dijo sí a Dios',['No quiso escuchar','Se fue corriendo']],['¿Qué oración rezamos a la Virgen?','El Ave María',['El himno nacional','Cumpleaños feliz']],['¿Cómo es María con nosotros?','Una madre que nos cuida',['Una persona enojada','Una persona lejana']]]},
+ora:{n:'La oración',e:'🙏',cards:[['🙏','Orar','Es hablar con Dios, nuestro amigo.'],['💛','Dar gracias','Le decimos gracias por la familia, la comida y el día.'],['🤗','Pedir perdón','Le decimos que sentimos haber hecho algo mal.'],['⛪','El Padre Nuestro','Es la oración que nos enseñó Jesús.'],['⏰','¿Cuándo rezamos?','En la mañana, antes de comer y antes de dormir.']],
+q:[['¿Qué es orar?','Hablar con Dios',['Jugar','Dormir']],['¿Qué oración nos enseñó Jesús?','El Padre Nuestro',['El Ave María','El himno']],['¿Cómo ponemos las manos para rezar?','Juntas',['En los bolsillos','Moviéndose']],['¿Cuándo podemos rezar?','En cualquier momento',['Solo en Navidad','Nunca']],['Antes de comer, ¿qué hacemos?','Damos gracias a Dios',['Gritamos','Nos vamos']]]},
+san:{n:'Los santos',e:'😇',cards:[['🌹','Santa Rosa de Lima','La primera santa de América. Amaba a Dios y ayudaba a los demás.'],['🐭','San Martín de Porres','Santo peruano. Ayudaba a los pobres y quería a los animales.'],['🟣','Señor de los Milagros','Se celebra en octubre. La gente se viste de morado.'],['🕯️','Todos los Santos','El 1 de noviembre recordamos a todos los santos.'],['😇','Los santos','Son personas que amaron mucho a Dios y a los demás.']],
+q:[['¿Quién es la primera santa de América?','Santa Rosa de Lima',['Blancanieves','Caperucita']],['¿Qué santo peruano quería a los animales?','San Martín de Porres',['Papá Noel','Superman']],['¿En qué mes se celebra al Señor de los Milagros?','Octubre',['Febrero','Julio']],['¿De qué color se visten en octubre?','Morado',['Verde','Rojo']],['¿Qué se celebra el 1 de noviembre?','Todos los Santos',['El Año Nuevo','El Día de la Madre']]]},
+ama:{n:'Amar a los demás',e:'❤️',cards:[['❤️','El mandamiento más grande','Amar a Dios y amar a los demás.'],['🤝','Ayudar','Si alguien necesita ayuda, yo ayudo.'],['🧸','Compartir','Comparto mis juguetes y mi lonchera.'],['🫶','Perdonar','Perdono cuando alguien me hace daño sin querer.'],['🙂','Respetar','Trato bien a mi familia, mis amigos y mi profe.']],
+q:[['¿Cuál es el mandamiento más importante?','Amar a Dios y a los demás',['Ganar siempre','Tener muchas cosas']],['Si un amigo se cae, ¿qué hago?','Lo ayudo',['Me río','Me voy']],['¿Qué hago con mis juguetes?','Los comparto',['Los escondo','Los rompo']],['Si alguien me hace daño sin querer, ¿qué hago?','Lo perdono',['Me vengo','No le hablo nunca']],['¿Quién es mi prójimo?','Todas las personas',['Solo mis amigos','Solo mi familia']]]},
+nav:{n:'Adviento y Navidad',e:'🎄',cards:[['🕯️','Adviento','Son cuatro semanas para esperar a Jesús.'],['🎄','Corona de Adviento','Tiene cuatro velas. Cada semana encendemos una.'],['🛖','El pesebre','Jesús nació en un pesebre, en Belén.'],['🐑','Los pastores','Los pastores fueron los primeros en visitar a Jesús.'],['👑','Reyes Magos','Trajeron regalos al niño Jesús.']],
+q:[['¿Qué celebramos en Navidad?','El nacimiento de Jesús',['Mi cumpleaños','El Año Nuevo']],['¿Cómo se llama el tiempo antes de Navidad?','Adviento',['Carnaval','Vacaciones']],['¿Cuántas velas tiene la corona de Adviento?','Cuatro',['Dos','Siete']],['¿Dónde puso María a Jesús al nacer?','En un pesebre',['En una cuna de oro','En un auto']],['¿Quiénes visitaron al niño Jesús?','Pastores y Reyes Magos',['Piratas','Robots']]]}
+};
+const app=document.getElementById('app');
+const sh=a=>[...a].sort(()=>Math.random()-.5);
+let V=null;
+function pickVoice(){
+ const vs=speechSynthesis.getVoices().filter(v=>/^es/i.test(v.lang));
+ const lang=['es-PE','es-MX','es-US','es-419','es-ES'];
+ const nat=[/natural|neural|online/i,/google/i,/paulina|monica|mónica|sabina|helena|lupe|dalia|elena/i,/enhanced|premium/i];
+ for(const r of nat){const f=vs.find(v=>r.test(v.name));if(f)return f}
+ for(const l of lang){const f=vs.find(v=>v.lang.replace('_','-')===l);if(f)return f}
+ return vs[0]||null;
+}
+try{V=pickVoice();speechSynthesis.onvoiceschanged=()=>{V=pickVoice()}}catch(e){}
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang=V?V.lang:'es-ES';if(V)u.voice=V;u.rate=.88;u.pitch=1.05;speechSynthesis.speak(u)}catch(e){}}
+function home(){
+ app.innerHTML=`<h1>✨ Religión Fun ✨</h1><p class="sub">Elige un tema y juega</p><div class="grid">`+
+ Object.keys(T).map(k=>`<button class="topic" onclick="topic('${k}')"><span class="e">${T[k].e}</span>${T[k].n}</button>`).join('')+
+ `<button class="mix" onclick="play('all')">🎲 Juego con todos los temas</button></div>`;
+}
+let cur;
+function topic(k){
+ cur=T[k];
+ app.innerHTML=`<button class="back" onclick="home()">⬅ Inicio</button><h1>${cur.e} ${cur.n}</h1><p class="sub">Toca cada tarjeta para escucharla 🔊</p><div class="list">`+
+ cur.cards.map((c,i)=>`<button class="card" onclick="say(cur.cards[${i}][1]+'. '+cur.cards[${i}][2])"><span class="e">${c[0]}</span><span><b>${c[1]}</b>${c[2]}</span></button>`).join('')+
+ `</div><div class="row"><button onclick="play('${k}')">🎮 ¡Jugar!</button></div>`;
+}
+let G;
+function play(k){
+ let pool=k==='all'?sh(Object.values(T).flatMap(t=>t.q.map(x=>[...x,t.e]))).slice(0,8):T[k].q.map(x=>[...x,T[k].e]);
+ G={k,i:0,s:0,qs:sh(pool).map(x=>({q:x[0],a:x[1],o:sh([x[1],...x[2]]),e:x[3]}))};
+ ask();
+}
+function ask(){
+ const q=G.qs[G.i];
+ app.innerHTML=`<button class="back" onclick="${G.k==='all'?'home()':`topic('${G.k}')`}">⬅ Salir</button>
+ <div class="bar"><i style="width:${G.i/G.qs.length*100}%"></i></div><p class="sub">Pregunta ${G.i+1} de ${G.qs.length} · ⭐ ${G.s}</p>
+ <div class="big">${q.e}</div><div class="q">${q.q}</div>
+ <button class="say" onclick="say(G.qs[G.i].q)">🔊 Escuchar pregunta</button>
+ <div class="opts">${q.o.map((o,i)=>`<button onclick="pick(this,${i})">${o}</button>`).join('')}</div>`;
+ say(q.q);
+}
+function pick(b,i){
+ const q=G.qs[G.i],o=q.o[i];
+ document.querySelectorAll('.opts button').forEach(x=>x.disabled=true);
+ if(o===q.a){b.classList.add('ok');b.textContent='✅ '+o;G.s++;say('¡Muy bien!')}
+ else{b.classList.add('no');b.textContent='❌ '+o;document.querySelectorAll('.opts button').forEach(x=>{if(x.textContent===q.a)x.classList.add('ok')});say('La respuesta es: '+q.a)}
+ setTimeout(()=>{G.i++;G.i<G.qs.length?ask():end()},2200);
+}
+function end(){
+ const p=G.s/G.qs.length,st=p>=.8?'⭐⭐⭐':p>=.5?'⭐⭐':'⭐';
+ const t=p>=.8?'¡Muy bien!':p>=.5?'¡Buen intento!':'¡Sigue practicando!';
+ app.innerHTML=`<h1>${p>=.8?'🎉':p>=.5?'👏':'💪'} ${t}</h1><div class="stars">${st}</div>
+ <p class="sub">Acertaste ${G.s} de ${G.qs.length}</p>
+ <div class="row"><button onclick="play('${G.k}')">🔁 Otra vez</button><button class="alt" onclick="home()">🏠 Inicio</button></div>`;
+ say(t);
+}
+home();
+</script>
+</body>
+</html>
